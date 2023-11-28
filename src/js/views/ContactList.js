@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import ContactCard from "../component/ContactCard";
 
-import "../../styles/ContactList.css"; // Replace 'demo.css' with the actual path to your contact list styles
+import "../../styles/ContactList.css"; 
 
 export const ContactList = () => {
     const { store, actions } = useContext(Context);
 
     useEffect(() => {
-        // This assumes you have an action to load contacts in your flux.js
+        
         actions.loadContacts();
     }, [actions]);
 
