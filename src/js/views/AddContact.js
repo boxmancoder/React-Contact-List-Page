@@ -4,7 +4,7 @@ import { Context } from "../store/appContext";
 
 export const AddContact = () => {
     const { actions } = useContext(Context);
-    const history = useHistory();
+    const navigate = useNavigate();
     const [contact, setContact] = useState({
         full_name: "",
         email: "",
@@ -16,10 +16,16 @@ export const AddContact = () => {
         setContact({ ...contact, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        actions.addContact(contact);
-        history.push("/"); // Redirect to contact list view after adding contact
+        try {
+            await actions.addContact(contact);
+            setContact({ full_name: "", email: "", phone: "", address: "" }); // Reset form
+            navigate("/"); // Redirect to contact list view after adding contact
+            // Optionally, show success message to user
+        } catch (error) {
+            // Optionally, show error message to user
+        }
     };
 
     return (

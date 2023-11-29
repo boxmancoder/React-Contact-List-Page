@@ -19,24 +19,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 		  }
 		},
 		// Function to add a new contact
+		// Function to add a new contact
 		addContact: async (newContact) => {
-		  try {
-			const response = await fetch('https://playground.4geeks.com/apis/fake/contact/', {
-			  method: 'POST',
-			  headers: {
-				'Content-Type': 'application/json',
-			  },
-			  body: JSON.stringify(newContact),
-			});
-			if (response.ok) {
-			  getActions().loadContacts(); // Reload the contact list
-			} else {
-			  throw new Error('Failed to post new contact');
+			try {
+			  const response = await fetch('https://playground.4geeks.com/apis/fake/contact/', {
+				method: 'POST',
+				headers: {
+				  'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(newContact),
+			  });
+			  if (response.ok) {
+				await response.json();
+				await getActions().loadContacts(); // Make sure this awaits the loadContacts action
+			  } else {
+				throw new Error('Failed to post new contact');
+			  }
+			} catch (error) {
+			  console.error('Error adding new contact:', error);
 			}
-		  } catch (error) {
-			console.error('Error adding new contact:', error);
-		  }
-		},
+		  },
 		// Function to update a contact
 		updateContact: async (id, updatedContact) => {
 		  try {
