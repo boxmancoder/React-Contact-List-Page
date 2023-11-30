@@ -1,0 +1,11 @@
+.header{
+    text-align: center;
+    margin-top: 5px;
+}
+.container{
+    width: 90%;
+    margin: auto;
+}
+.goback-button{
+    margin: 5px;
+}

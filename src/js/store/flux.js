@@ -1,81 +1,45 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
-	  store: {
-		contacts: []
-	  },
-	  actions: {
-		// Function to load contacts from the API
-		loadContacts: async () => {
-		  try {
-			const response = await fetch('https://playground.4geeks.com/apis/fake/contact/agenda/downtown_xii');
-			if (response.ok) {
-			  const contacts = await response.json();
-			  setStore({ contacts });
-			} else {
-			  throw new Error('Failed to fetch contacts');
-			}
-		  } catch (error) {
-			console.error('Error loading contacts:', error);
-		  }
-		},
-		// Function to add a new contact
-		// Function to add a new contact
-		addContact: async (newContact) => {
-			try {
-			  const response = await fetch('https://playground.4geeks.com/apis/fake/contact/', {
-				method: 'POST',
-				headers: {
-				  'Content-Type': 'application/json',
+		store: {
+			demo: [
+				{
+					title: "FIRST",
+					background: "white",
+					initial: "white"
 				},
-				body: JSON.stringify(newContact),
-			  });
-			  if (response.ok) {
-				await response.json();
-				await getActions().loadContacts(); // Make sure this awaits the loadContacts action
-			  } else {
-				throw new Error('Failed to post new contact');
-			  }
-			} catch (error) {
-			  console.error('Error adding new contact:', error);
-			}
-		  },
-		// Function to update a contact
-		updateContact: async (id, updatedContact) => {
-		  try {
-			const response = await fetch(`https://playground.4geeks.com/apis/fake/contact/${id}`, {
-			  method: 'PUT',
-			  headers: {
-				'Content-Type': 'application/json',
-			  },
-			  body: JSON.stringify(updatedContact),
-			});
-			if (response.ok) {
-			  getActions().loadContacts(); // Reload the contact list
-			} else {
-			  throw new Error('Failed to update contact');
-			}
-		  } catch (error) {
-			console.error('Error updating contact:', error);
-		  }
+				{
+					title: "SECOND",
+					background: "white",
+					initial: "white"
+				}
+			]
 		},
-		// Function to delete a contact
-		deleteContact: async (id) => {
-		  try {
-			const response = await fetch(`https://playground.4geeks.com/apis/fake/contact/${id}`, {
-			  method: 'DELETE',
-			});
-			if (response.ok) {
-			  getActions().loadContacts(); // Reload the contact list
-			} else {
-			  throw new Error('Failed to delete contact');
+		actions: {
+			// Use getActions to call a function within a fuction
+			exampleFunction: () => {
+				getActions().changeColor(0, "green");
+			},
+			loadSomeData: () => {
+				/**
+					fetch().then().then(data => setStore({ "foo": data.bar }))
+				*/
+			},
+			changeColor: (index, color) => {
+				//get the store
+				const store = getStore();
+
+				//we have to loop the entire demo array to look for the respective index
+				//and change its color
+				const demo = store.demo.map((elm, i) => {
+					if (i === index) elm.background = color;
+					return elm;
+				});
+
+				//reset the global store
+				setStore({ demo: demo });
 			}
-		  } catch (error) {
-			console.error('Error deleting contact:', error);
-		  }
-		},
-		// ...other actions
-	  }
+		}
 	};
-  };
-  
-  export default getState;
+};
+
+export default getState;
