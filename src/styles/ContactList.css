@@ -1,0 +1,31 @@
+.container {
+  width: 80%;
+  margin: auto;
+}
+
+.contact-card {
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item {
+  border: none;
+  font-size: 1rem; /* Adjust the font size as needed */
+}
+
+/* Style the icons */
+.fa-envelope,
+.fa-phone,
+.fa-map-marker-alt {
+  margin-right: 0.5rem; /* Adds some spacing between the icon and text */
+}
+
+/* Style the buttons to appear as icons */
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+/* Ensure the icons are aligned to the right */
+.d-flex {
+  align-items: center;
+}
