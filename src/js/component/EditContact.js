@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Form, Button, Alert } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave } from '@fortawesome/free-solid-svg-icons';
+
 
 const EditContact = () => {
     const { contactId } = useParams();
   const navigate = useNavigate();
-  // Assuming your contact data structure matches the keys below
+ 
   const [contact, setContact] = useState({
-    full_name: '', // Make sure these keys match the contact object from your API
+    full_name: '', 
     email: '',
     phone: '',
     address: ''
@@ -29,21 +28,29 @@ const EditContact = () => {
   
   const handleUpdate = (e) => {
     e.preventDefault();
-    // Send a PUT request to update the contact
+    
+    const requestBody = {
+      full_name: contact.full_name,
+      email: contact.email,
+      phone: contact.phone,
+      address: contact.address,
+      agenda_slug: "httpscammy" 
+    };
+
+    console.log('Request Body:', requestBody); 
+
     fetch(`https://playground.4geeks.com/apis/fake/contact/${contactId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        full_name: contact.full_name,
-        email: contact.email,
-        phone: contact.phone,
-        address: contact.address
-      })
+      body: JSON.stringify(requestBody)
     })
     .then(response => {
       if (!response.ok) {
+        response.json().then(body => {
+          console.error('Response Body:', body); // Log the body for more details
+        });
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       return response.json();
@@ -51,8 +58,10 @@ const EditContact = () => {
     .then(() => {
       navigate('/'); // Go back to the contact list after successful update
     })
-    .catch(error => console.error('Error:', error));
-  };
+    .catch(error => {
+      console.error('Error:', error);
+    });
+};
 
   return (
     <div className="container mt-5">
